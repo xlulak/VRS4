@@ -25,7 +25,7 @@
 void SystemClock_Config(void);
 uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN);
 
-uint8_t interrupt = 0;
+uint8_t switchState = 0;
 
 int main(void)
 {
@@ -69,7 +69,7 @@ int main(void)
 
   while (1)
   {
-	  if(interrupt)
+	  if(switchState)
 	  {
 		  GPIOB->BSRR |= GPIO_BSRR_BS_3;
 		  for(uint16_t i=0; i<0xFF00; i++){}
@@ -154,7 +154,7 @@ void EXTI3_IRQHandler(void)
 {
 	if(check_button_state(GPIOA, 3))
 	{
-		interrupt ^= 1;
+		switchState ^= 1;
 	}
 
 	//Clear pending register flag
