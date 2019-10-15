@@ -38,9 +38,11 @@ int main(void)
   SystemClock_Config();
 
   /*EXTI configuration*/
+  //NVIC_SetPriority(EXTI3_IRQn, 2);
+  //NVIC_EnableIRQ(EXTI3_IRQn);
   //Set interrupt priority and enable EXTI
-  NVIC_SetPriority(EXTI3_IRQn, 2);
-  NVIC_EnableIRQ(EXTI3_IRQn);
+  NVIC->IP[9] |= 2 << 4;
+  NVIC->ISER[0] |= 1 << 9;
 
   /*set EXTI source PA3*/
   SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
