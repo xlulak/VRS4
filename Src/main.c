@@ -124,9 +124,9 @@ uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
 {
 	uint8_t button_state = 0, timeout = 0;
 
-	while(button_state < 200 && timeout < 400)
+	while(button_state < 20 && timeout < 50)
 	{
-		if(LL_GPIO_IsInputPinSet(PORT, PIN))
+		if(!(PORT->IDR & (1 << PIN))/*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
 		{
 			button_state += 1;
 		}
@@ -139,7 +139,7 @@ uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
 		LL_mDelay(1);
 	}
 
-	if((button_state >= 200) && (timeout <= 400))
+	if((button_state >= 20) && (timeout <= 50))
 	{
 		return 1;
 	}
