@@ -125,10 +125,10 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t 
 void EXTI4_IRQHandler(void)
 {
 	if(checkButtonState(GPIO_PORT_BUTTON,
-						  GPIO_PIN_BUTTON,
-						  BUTTON_EXTI_TRIGGER,
-						  BUTTON_EXTI_SAMPLES_WINDOW,
-						  BUTTON_EXTI_SAMPLES_REQUIRED))
+						GPIO_PIN_BUTTON,
+						BUTTON_EXTI_TRIGGER,
+						BUTTON_EXTI_SAMPLES_WINDOW,
+						BUTTON_EXTI_SAMPLES_REQUIRED))
 	{
 		switch_state ^= 1;
 	}
