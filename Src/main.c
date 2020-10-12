@@ -20,12 +20,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "assignment.h"
 
 void SystemClock_Config(void);
 uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN);
 
-uint8_t switchState = 0;
+uint8_t switch_state = 0;
 
 int main(void)
 {
@@ -37,39 +37,35 @@ int main(void)
 
   SystemClock_Config();
 
-  /*EXTI configuration*/
-  //NVIC_SetPriority(EXTI3_IRQn, 2);
-  //NVIC_EnableIRQ(EXTI3_IRQn);
-  //Set interrupt priority and enable EXTI
-  NVIC->IP[9] |= 2 << 4;
-  NVIC->ISER[0] |= 1 << 9;
 
-  /*set EXTI source PA3*/
-  SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
-  //Enable interrupt from EXTI line 3
-  EXTI->IMR |= EXTI_IMR_MR3;
-  //Set EXTI trigger to falling edge
-  EXTI->RTSR &= ~(EXTI_IMR_MR3);
-  EXTI->FTSR |= EXTI_IMR_MR3;
+  /*
+   * TASK - configure MCU peripherals so that button triggers external interrupt - EXTI.
+   * Button must be connected to the GPIO port B, pin 4.
+   * LED must be connected to the GPIO port A and its pin 4.
+   *
+   * Adjust values of macros defined in "assignment.h".
+   * Implement function "checkButtonState" declared in "assignment.h".
+   */
 
-  /*GPIO configuration, PA3*/
-  RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-  GPIOA->MODER &= ~(GPIO_MODER_MODER3);
-  GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR3);
-  GPIOA->PUPDR |= GPIO_PUPDR_PUPDR3_0;
 
-  /*GPIO configuration, PB3*/
-  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-  GPIOB->MODER &= ~(GPIO_MODER_MODER3);
-  GPIOB->MODER |= GPIO_MODER_MODER3_0;
-  GPIOB->OTYPER &= ~(GPIO_OTYPER_OT_3);
-  GPIOB->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR3);
-  GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR3);
+  /* Configure external interrupt - EXTI*/
+
+  	  //type your code for EXTI configuration (priority, enable EXTI, setup EXTI for input pin, trigger edge) here:
+
+
+  /* Configure GPIOB-4 pin as an input pin - button */
+
+	  //type your code for GPIO configuration here:
+
+
+  /* Configure GPIOA-4 pin as an output pin - LED */
+
+	  //type your code for GPIO configuration here:
 
 
   while (1)
   {
-	  if(switchState)
+	  if(switch_state)
 	  {
 		  GPIOB->BSRR |= GPIO_BSRR_BS_3;
 		  for(uint16_t i=0; i<0xFF00; i++){}
@@ -120,45 +116,26 @@ void SystemClock_Config(void)
 }
 
 
-uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
 {
-	uint8_t button_state = 0, timeout = 0;
-
-	while(button_state < 20 && timeout < 50)
-	{
-		if(!(PORT->IDR & (1 << PIN))/*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
-		{
-			button_state += 1;
-		}
-		else
-		{
-			button_state = 0;
-		}
-
-		timeout += 1;
-		LL_mDelay(1);
-	}
-
-	if((button_state >= 20) && (timeout <= 50))
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
+	  //type your code for "checkButtonState" implementation here:
 }
 
 
-void EXTI3_IRQHandler(void)
+void EXTI4_IRQHandler(void)
 {
-	if(check_button_state(GPIOA, 3))
+	if(checkButtonState(GPIO_PORT_BUTTON,
+						  GPIO_PIN_BUTTON,
+						  BUTTON_EXTI_TRIGGER,
+						  BUTTON_EXTI_SAMPLES_WINDOW,
+						  BUTTON_EXTI_SAMPLES_REQUIRED))
 	{
-		switchState ^= 1;
+		switch_state ^= 1;
 	}
 
-	//Clear pending register flag
-	EXTI->PR |= (EXTI_PR_PIF3);
+	/* Clear EXTI4 pending register flag */
+
+		//type your code for pending register flag clear here:
 }
 
 /* USER CODE BEGIN 4 */
