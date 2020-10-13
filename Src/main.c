@@ -79,9 +79,6 @@ int main(void)
 
 	  //type your code for GPIO configuration here:
 
-
-  GPIOA->ODR |= GPIO_ODR_4;
-
   while (1)
   {
 	  uint32_t HELP = BUTTON_GET_STATE;
