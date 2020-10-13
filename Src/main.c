@@ -54,11 +54,19 @@ int main(void)
 
 
   /* Configure GPIOB-4 pin as an input pin - button */
-
-	  //type your code for GPIO configuration here:
+  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;		//enabled clock
+  GPIOB->MODER &= ~(GPIO_MODER_MODER4);		//moder reset -> INPUT
+  GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR4);		//transistors
+  GPIOB->PUPDR |= GPIO_PUPDR_PUPDR4_0;
 
 
   /* Configure GPIOA-4 pin as an output pin - LED */
+  RCC->AHBENR |= RCC_AHBENR_GPIOAEN;			//clock enabled
+  GPIOA->MODER &= ~(GPIO_MODER_MODER4);			//reset
+  GPIOA->MODER |= GPIO_MODER_MODER4_0;			//outputmode
+  GPIOA->OTYPER &= ~(GPIO_OTYPER_OT_4);			//otyper 4 in A set to 1
+  GPIOA->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR4); 	//set speed of output register
+  GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR4);			//no pull up/pull down
 
 	  //type your code for GPIO configuration here:
 
