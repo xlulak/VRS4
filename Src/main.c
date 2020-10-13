@@ -43,15 +43,17 @@ int main(void)
    * Adjust values of macros defined in "assignment.h".
    * Implement function "checkButtonState" declared in "assignment.h".
    */
-  NVIC_SetPriority(EXTI4_IRQn, 2);
-  NVIC_EnableIRQ(EXTI4_IRQn);
+ // NVIC_SetPriority(EXTI4_IRQn, 2);
+ // NVIC_EnableIRQ(EXTI4_IRQn);
+  	NVIC->IP[10] |= 2 << 4;
+    NVIC->ISER[0] |= 1 << 10;
 
   /* Configure external interrupt - EXTI*/
  // SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
   /*set EXTI source PA3*/ // ->PB4
  //  SYSCFG->EXTICR[1] &= ~(0xFU << 12U);	//keby nejde tak exticr[1]
 
-   SYSCFG->EXTICR[1] |= 0 ;	//keby nejde tak exticr[1]
+   SYSCFG->EXTICR[1] |= 1 ;	//set PB4
 
    //Enable interrupt from EXTI line 4
    EXTI->IMR |= EXTI_IMR_MR4;
