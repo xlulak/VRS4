@@ -50,8 +50,15 @@ int main(void)
 
   /* Configure external interrupt - EXTI*/
 
-  	  //type your code for EXTI configuration (priority, enable EXTI, setup EXTI for input pin, trigger edge) here:
+  /*set EXTI source PA3*/ // ->PB4
+   SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
 
+   //Enable interrupt from EXTI line 3
+   EXTI->IMR |= EXTI_IMR_MR4;
+
+   //Set EXTI trigger to falling edge
+   EXTI->RTSR &= ~(EXTI_IMR_MR4);
+   EXTI->FTSR |= EXTI_IMR_MR4;
 
   /* Configure GPIOB-4 pin as an input pin - button */
   RCC->AHBENR |= RCC_AHBENR_GPIOBEN;		//enabled clock
