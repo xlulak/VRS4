@@ -53,7 +53,7 @@ int main(void)
   /*set EXTI source PA3*/ // ->PB4
    SYSCFG->EXTICR[0] &= ~(0xFU << 12U);	//keby nejde tak exticr[1]
 
-   //Enable interrupt from EXTI line 3
+   //Enable interrupt from EXTI line 4
    EXTI->IMR |= EXTI_IMR_MR4;
 
    //Set EXTI trigger to falling edge
@@ -82,14 +82,14 @@ int main(void)
   {
 	  if(switch_state)
 	  {
-		  GPIOB->BSRR |= GPIO_BSRR_BS_3;
+		  GPIOA->BSRR |= GPIO_BSRR_BS_4;
 		  for(uint16_t i=0; i<0xFF00; i++){}
-		  GPIOB->BRR |= GPIO_BRR_BR_3;
+		  GPIOA->BRR |= GPIO_BRR_BR_4;
 		  for(uint16_t i=0; i<0xFF00; i++){}
 	  }
 	  else
 	  {
-		  GPIOB->BRR |= GPIO_BRR_BR_3;
+		  GPIOA->BRR |= GPIO_BRR_BR_4;
 	  }
   }
 
