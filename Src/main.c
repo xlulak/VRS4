@@ -59,8 +59,8 @@ int main(void)
    EXTI->IMR |= EXTI_IMR_MR4;
 
    //Set EXTI trigger to falling edge
-   EXTI->RTSR &= ~(EXTI_IMR_MR4);
-   EXTI->FTSR |= EXTI_IMR_MR4;
+   EXTI->FTSR &= ~(EXTI_IMR_MR4);
+   EXTI->RTSR |= EXTI_IMR_MR4;
 
   /* Configure GPIOB-4 pin as an input pin - button */
   RCC->AHBENR |= RCC_AHBENR_GPIOBEN;		//enabled clock
