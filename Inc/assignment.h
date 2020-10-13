@@ -23,9 +23,9 @@
 #define		BUTTON_EXTI_SAMPLES_REQUIRED	20
 
 //IDR register
-#define	GPIOA_BASE_ADDR			(uint32_t)(0x48000000U)
-#define GPIOA_IDR_REG			*((volatile uint32_t *)(uint32_t)(GPIOA_BASE_ADDR + 0x10U))
-#define BUTTON_GET_STATE		(!(GPIOA_IDR_REG & (1 << 4)))
+#define	GPIOB_BASE_ADDR			(uint32_t)(0x48000400U)
+#define GPIOB_IDR_REG			*((volatile uint32_t *)(uint32_t)(GPIOB_BASE_ADDR + 0x10U))
+#define BUTTON_GET_STATE		(!(GPIOB_IDR_REG & (1 << 4)))
 /**
  *  Function checks if the button was pressed or EXTI detection was false - positive.
  *  @input_param_1 - PORT: GPIO port connected to button.
