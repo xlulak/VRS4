@@ -11,8 +11,8 @@
 #include "main.h"
 
 // defines for input port used by button
-#define		GPIO_PORT_BUTTON				GPIOA
-#define		GPIO_PIN_BUTTON					3
+#define		GPIO_PORT_BUTTON				GPIOB
+#define		GPIO_PIN_BUTTON					4
 
 // defines for "checkButtonState"
 #define		TRIGGER_RISE					0
@@ -22,7 +22,10 @@
 #define		BUTTON_EXTI_SAMPLES_WINDOW		30
 #define		BUTTON_EXTI_SAMPLES_REQUIRED	20
 
-
+//IDR register
+#define	GPIOA_BASE_ADDR			(uint32_t)(0x48000000U)
+#define GPIOA_IDR_REG			*((volatile uint32_t *)(uint32_t)(GPIOA_BASE_ADDR + 0x10U))
+#define BUTTON_GET_STATE		(!(GPIOA_IDR_REG & (1 << 4)))
 /**
  *  Function checks if the button was pressed or EXTI detection was false - positive.
  *  @input_param_1 - PORT: GPIO port connected to button.
